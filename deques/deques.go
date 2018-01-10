@@ -12,22 +12,18 @@ type Deque interface {
 	AddFirst(value interface{})
 	AddLast(value interface{})
 
-	Remove() (interface{}, error)
-	RemoveFirst() (interface{}, error)
-	RemoveLast() (interface{}, error)
+	Remove() (interface{}, bool)
+	RemoveFirst() (interface{}, bool)
+	RemoveLast() (interface{}, bool)
 
-	Peek()(interface{}, error)
-	PeekFirst() (interface{}, error)
-	PeekLast() (interface{}, error)
-
-	Poll() (interface{}, bool)
-	PollFirst() (interface{}, bool)
-	PollLast() (interface{}, bool)
+	Peek()(interface{}, bool)
+	PeekFirst() (interface{}, bool)
+	PeekLast() (interface{}, bool)
 
 	Contains(items ...interface{}) bool
 
 	Push(value interface{})
-	Pop()(interface{}, error)
+	Pop()(interface{}, bool)
 
 	containers.Container
 }

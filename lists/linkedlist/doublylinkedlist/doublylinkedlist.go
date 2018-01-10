@@ -137,19 +137,19 @@ func (self *DoublyLinkedList) GetBack() (interface{}, bool) {
 
 
 
-func (self *DoublyLinkedList) RemoveAtIndex(index int) (interface{}, error){
-	return nil, nil
+func (self *DoublyLinkedList) RemoveAtIndex(index int) (interface{}, bool){
+	return nil, false
 }
 
-func (self *DoublyLinkedList) RemoveValue(value interface{})(interface{}, error) {
- return nil, nil
+func (self *DoublyLinkedList) RemoveValue(value interface{})(interface{}, bool) {
+ return nil, false
 }
 
-func (self *DoublyLinkedList) RemoveFront() (interface{}, error){
+func (self *DoublyLinkedList) RemoveFront() (interface{}, bool){
 	return self.RemoveAtIndex(0)
 }
 
-func (self *DoublyLinkedList) RemoveBack() (interface{}, error){
+func (self *DoublyLinkedList) RemoveBack() (interface{}, bool){
 	return self.RemoveAtIndex(self.Size()-1)
 }
 

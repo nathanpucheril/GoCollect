@@ -6,6 +6,6 @@ type Container interface {
 	ToSlice() []interface{}
 	Clear()
 
-	Iterator() Iterator
+	Iterable
 }
 

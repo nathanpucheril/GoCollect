@@ -7,7 +7,7 @@ import (
 )
 
 type LinkedListStack struct {
-	ll *doublylinkedlist.DoublyLinkedList
+	*doublylinkedlist.DoublyLinkedList
 }
 
 func NewLinkedListStack() LinkedListStack {
@@ -16,38 +16,17 @@ func NewLinkedListStack() LinkedListStack {
 }
 
 func (self *LinkedListStack) Push(value interface{}) {
-	self.ll.Append(value)
+	self.DoublyLinkedList.Append(value)
 }
 
-func (self *LinkedListStack) Pop() (interface{}, error) {
-	return self.ll.RemoveBack()
+func (self *LinkedListStack) Pop() (interface{}, bool) {
+	return self.DoublyLinkedList.RemoveBack()
 }
 
-func (self *LinkedListStack) Peek() (interface{}, error) {
-	value, ok := self.ll.GetBack()
+func (self *LinkedListStack) Peek() (interface{}, bool) {
+	value, ok := self.DoublyLinkedList.GetBack()
 	if ok {
-		return value, nil
+		return value, true
 	}
-	return nil, errors.New("NoSuchElement")
+	return nil, false
 }
-
-func (self *LinkedListStack) IsEmpty() bool {
-	self.ll.IsEmpty()
-}
-
-func (self *LinkedListStack) Size() int {
-	self.ll.Size()
-}
-
-func (self *LinkedListStack) ToSlice() []interface{} {
-	self.ll.ToSlice()
-}
-
-func (self *LinkedListStack) Clear() {
-	self.ll.Clear()
-}
-
-func (self *LinkedListStack) Iterator() containers.Iterator {
-	return self.ll.Iterator()
-}
-

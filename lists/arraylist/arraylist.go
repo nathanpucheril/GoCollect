@@ -61,8 +61,8 @@ func (*ArrayList) Clear() {
 	panic("implement me")
 }
 
-func (*ArrayList) Iterator() containers.Iterator {
-	panic("implement me")
+func (self *ArrayList) Iterator() containers.Iterator {
+	return lists.NewIndexIterator(&self)
 }
 
 func New() ArrayList {
