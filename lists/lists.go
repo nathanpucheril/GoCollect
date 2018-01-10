@@ -1,27 +1,39 @@
 package lists
 
-type List interface {
-	Insert(index int, value interface{})
-	IndexOf() int
-	RemoveAtIndex(index int) interface{}
-	Remove(items ...interface{}) interface{}
-	//RemoveContainer(c Container) interface{}
-	Set(index int, value interface{})
-	Get(index int) interface{}
-	Contains(items ...interface{}) bool
-	LastIndexOf() int
-	Sublist(to, from int) List
-	//Size() int
-	//IsEmpty() bool
-}
+import (
+	"github.com/nathanpucheril/GoCollect/containers"
+)
 
+type List interface {
+	Prepend(value interface{})
+	Append(value interface{})
+	Insert(index int, value interface{})
+
+	Remove(index int) (interface{}, bool)
+	Set(index int, value interface{})
+	Get(index int) (interface{}, bool)
+	Contains(items ...interface{}) bool
+
+	IndexOf(value interface{}) int
+	LastIndexOf(value interface{}) int
+
+	Sublist(to, from int) List
+
+	containers.Container
+}
+//
 //type list struct {
 //	List
 //}
-
-//func (self *list) IsEmpty() bool {
-//	return self.Size() == 0
+//
+//func (self *list) Prepend(value interface{}) {
+//	self.Insert(0, value)
 //}
+//
+//func (self *list) Append(value interface{}) {
+//	self.Insert(self.Size(), value)
+//}
+
 
 //func validIndex(list List, index int) bool {
 //	return 0 <= index && index < list.Size()

@@ -1,14 +1,13 @@
 package sets
 
+import "github.com/nathanpucheril/GoCollect/containers"
+
 type Set interface {
-	Add() bool
-	Remove() bool
-	Contains() bool
-	// Collection
-	//IsEmpty() bool
-	//Size() int
-	//ToSlice() []interface{}
-	//Clear()
+	Add(value ...interface{}) bool
+	Remove(value ...interface{}) bool
+	Contains(value ...interface{}) bool
+
+	containers.Container
 }
 
 func union(s1, s2 Set) Set {

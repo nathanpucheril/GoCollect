@@ -1,13 +1,19 @@
 package hashset
 
+import (
+	"github.com/nathanpucheril/GoCollect/containers"
+	"github.com/nathanpucheril/GoCollect/sets"
+)
+
 type HashSet struct {
 	set map[interface{}]struct{}
+	sets.Set
 }
 
 type empty struct{}
 
 func New() HashSet {
-	return HashSet{make(map[interface{}]struct{})}
+	return HashSet{set:make(map[interface{}]struct{})}
 }
 
 func (self *HashSet) Clear() {
@@ -27,16 +33,26 @@ func (self *HashSet) IsEmpty() bool {
 	return len(self.set) == 0
 }
 
-func (self *HashSet) Add(items ...interface{}) {
+func (self *HashSet) Add(items ...interface{}) bool {
+	changed := false
 	for _, item := range items {
+		if _, ok:= self.set[item]; !ok { // if the set did not contain the item, we successfully will add it
+			changed = true
+		}
 		self.set[item] = empty{}
 	}
+	return changed
 }
 
-func (self *HashSet) Remove(item interface{}) bool {
-	ret := self.Contains(item)
-	delete(self.set, item)
-	return ret
+func (self *HashSet) Remove(items ...interface{}) bool {
+	changed := false
+	for _, item := range items {
+		if _, ok:= self.set[item]; ok { // if the set contained the item, we successfully will remove it
+			changed = true
+		}
+		delete(self.set, item)
+	}
+	return changed
 }
 
 func (self *HashSet) Size() int {
@@ -52,4 +68,9 @@ func (self *HashSet) ToSlice() []interface{} {
 		i++
 	}
 	return keys
+}
+
+
+func (self *HashSet) Iterator() containers.Iterator {
+
 }

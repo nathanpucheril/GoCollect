@@ -1,9 +1,17 @@
-package linkedlist
+package singlylinkedlist
+
+import (
+	"github.com/nathanpucheril/GoCollect/containers"
+	"github.com/nathanpucheril/GoCollect/lists"
+)
+
+var _ lists.List = (*SinglyLinkedList)(nil)
 
 type SinglyLinkedList struct {
 	sentinelFront *slnode
 	tailPtr       *slnode
 	size          int
+	lists.List
 }
 
 func NewSLL() *SinglyLinkedList {
@@ -36,16 +44,25 @@ func (self *SinglyLinkedList) InsertBack(value interface{}) {
 	self.size++
 }
 
-func (self *SinglyLinkedList) Remove(index int, value interface{}) {
+// TODO with iterator
+func (self *SinglyLinkedList) Contains(values ...interface{}) bool {
+	//for _, value := range values {
+	//	for _, listItem := range
+	//}
+	return false
+}
+
+
+func (self *SinglyLinkedList) Remove(index int) (interface{}, bool) {
 
 }
 
-func (self *SinglyLinkedList) RemoveFront(value interface{}) {
-	self.Remove(0, value)
+func (self *SinglyLinkedList) RemoveFront()  (interface{}, bool) {
+	self.Remove(0)
 }
 
-func (self *SinglyLinkedList) RemoveBack(value interface{}) {
-	self.Remove(self.Size()-1, value)
+func (self *SinglyLinkedList) RemoveBack()  (interface{}, bool) {
+	self.Remove(self.Size()-1)
 }
 
 func (self *SinglyLinkedList) Size() int {
@@ -61,9 +78,13 @@ func (self *SinglyLinkedList) ToSlice() []interface{} {
 	}
 	return slice
 }
-func (self *SinglyLinkedList) IsEmpty() bool {
-	return self.size == 0
+//func (self *SinglyLinkedList) IsEmpty() bool {
+//	return self.size == 0
+//
+//}
 
+func (self *SinglyLinkedList) Iterator() containers.Iterator {
+	return nil
 }
 
 type slnode struct {
