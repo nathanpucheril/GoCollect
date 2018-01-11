@@ -54,15 +54,15 @@ func (self *SinglyLinkedList) Contains(values ...interface{}) bool {
 
 
 func (self *SinglyLinkedList) Remove(index int) (interface{}, bool) {
-
+	panic("implement")
 }
 
 func (self *SinglyLinkedList) RemoveFront()  (interface{}, bool) {
-	self.Remove(0)
+	return self.Remove(0)
 }
 
 func (self *SinglyLinkedList) RemoveBack()  (interface{}, bool) {
-	self.Remove(self.Size()-1)
+	return self.Remove(self.Size()-1)
 }
 
 func (self *SinglyLinkedList) Size() int {
@@ -84,7 +84,8 @@ func (self *SinglyLinkedList) ToSlice() []interface{} {
 //}
 
 func (self *SinglyLinkedList) Iterator() containers.Iterator {
-	return nil
+	sllIt:= NewSLLIterator(self)
+	return &sllIt
 }
 
 type slnode struct {

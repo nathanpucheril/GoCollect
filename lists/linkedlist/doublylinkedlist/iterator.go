@@ -1,7 +1,6 @@
 package doublylinkedlist
 
 import (
-	"github.com/nathanpucheril/GoCollect"
 	"github.com/nathanpucheril/GoCollect/containers"
 	"github.com/pkg/errors"
 )

@@ -1,15 +1,14 @@
 package lists
 
 import (
-	"github.com/nathanpucheril/GoCollect"
 	"github.com/nathanpucheril/GoCollect/containers"
-	"github.com/nathanpucheril/GoCollect/lists/arraylist"
 	"github.com/pkg/errors"
 )
 
 type ListIterator struct {
 	index int
 	list *List
+	containers.Iterator
 }
 
 func NewIndexIterator(list *List)  (ListIterator) {
@@ -29,7 +28,7 @@ func (self *ListIterator) Next() (interface{}, error) {
 	return nil, errors.New("StopIteration error")
 }
 
-func  (self *ListIterator) NextIndex() int {
+func (self *ListIterator) NextIndex() int {
 	return self.index
 }
 

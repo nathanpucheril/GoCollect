@@ -3,8 +3,8 @@ package fuzzymap
 import "github.com/nathanpucheril/GoCollect/maps"
 
 type FuzzyMap struct {
-	writeFn, readFn func(interface{})interface{}
-	baseMap maps.Map
+	writeFn, readFn func(interface{}) interface{}
+	baseMap         maps.Map
 }
 
 func (self *FuzzyMap) Put(key, value interface{}) bool {

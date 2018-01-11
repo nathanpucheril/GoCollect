@@ -12,4 +12,12 @@ func TestSinglyLinkedList_Insert(t *testing.T) {
 	sll.InsertFront(3)
 	fmt.Println(sll.Size())
 	fmt.Println(sll.ToSlice())
+
+	it := sll.Iterator()
+	for it.HasNext() {
+		fmt.Println(it.Next())
+	}
+	fmt.Println(it.Next())
+	fmt.Println(it.Next())
+	fmt.Println(it.Next())
 }

@@ -22,6 +22,9 @@ func (self *ArrayStack) Peek() (interface{}, bool) {
 	return self.ArrayList.Get(self.Size() - 1)
 }
 
+func (self *LinkedListStack) Iterator() containers.Iterator {
+	return self.DoublyLinkedList.Iterator()// TODO need to do in reverse
+}
 
 func NewArrayListStack() ArrayStack {
 	arr := arraylist.New()

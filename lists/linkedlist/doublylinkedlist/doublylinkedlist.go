@@ -1,7 +1,6 @@
 package doublylinkedlist
 
 import (
-	"container/list"
 	"github.com/nathanpucheril/GoCollect/containers"
 	"github.com/nathanpucheril/GoCollect/lists"
 )
@@ -56,7 +55,8 @@ func (self *DoublyLinkedList) Clear() {
 }
 
 func (self *DoublyLinkedList) Iterator() containers.Iterator {
-	panic("implement me")
+	dllIt:= NewDLLIterator(self)
+	return &dllIt
 }
 
 func NewDLL() *DoublyLinkedList {

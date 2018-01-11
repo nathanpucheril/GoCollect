@@ -62,7 +62,14 @@ func (*ArrayList) Clear() {
 }
 
 func (self *ArrayList) Iterator() containers.Iterator {
-	return lists.NewIndexIterator(&self)
+	var list lists.List = *self
+	return lists.NewIndexIterator(&list)
+}
+
+func (self *ArrayList) ReverseIterator() containers.Iterator  {
+	panic("implement")
+	//var list lists.List = *self
+	//return lists.NewIndexIterator(&list)
 }
 
 func New() ArrayList {

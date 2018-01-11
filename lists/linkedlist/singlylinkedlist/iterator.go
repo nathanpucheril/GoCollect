@@ -1,14 +1,14 @@
 package singlylinkedlist
 
 import (
-	"github.com/nathanpucheril/GoCollect"
+	"github.com/nathanpucheril/GoCollect/containers"
 	"github.com/pkg/errors"
 )
 
 type SLLIterator struct {
 	node *slnode
 	list *SinglyLinkedList
-	GoCollect.Iterator
+	containers.Iterator
 }
 
 func NewSLLIterator(list *SinglyLinkedList)  (SLLIterator) {
@@ -16,7 +16,7 @@ func NewSLLIterator(list *SinglyLinkedList)  (SLLIterator) {
 }
 
 func (self *SLLIterator) HasNext() bool {
-	return *self.node.next != *self.list.tailPtr
+	return *self.node != *self.list.tailPtr
 }
 
 func (self *SLLIterator) Next() (interface{}, error) {

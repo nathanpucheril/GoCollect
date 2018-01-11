@@ -8,6 +8,7 @@ import (
 
 type LinkedListStack struct {
 	*doublylinkedlist.DoublyLinkedList
+	Stack
 }
 
 func NewLinkedListStack() LinkedListStack {
@@ -29,4 +30,8 @@ func (self *LinkedListStack) Peek() (interface{}, bool) {
 		return value, true
 	}
 	return nil, false
+}
+
+func (self *LinkedListStack) Iterator() containers.Iterator {
+	return self.DoublyLinkedList.Iterator()// TODO need to do in reverse
 }
