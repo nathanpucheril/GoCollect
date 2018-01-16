@@ -1,4 +1,5 @@
 package GoCollect
+
 //
 //import (
 //	"github.com/nathanpucheril/GoCollect/containers"

@@ -8,4 +8,3 @@ type Container interface {
 
 	Iterable
 }
-
