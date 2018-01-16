@@ -1,4 +1,4 @@
-package GoCollect
+package comparators
 
 type Comparator func(a, b interface{}) int
 

@@ -1,4 +1,4 @@
-package containers
+package iterators
 
 type Iterator interface {
 	Next() (interface{}, error)

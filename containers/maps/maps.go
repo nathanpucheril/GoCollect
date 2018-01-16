@@ -40,3 +40,8 @@ type Multimap interface {
 
 	containers.Container
 }
+
+type MapEntry interface {
+	GetKey() interface{}
+	GetValue() interface{}
+}

@@ -1,8 +1,8 @@
 package doublylinkedlist
 
 import (
-	"github.com/nathanpucheril/GoCollect/containers"
 	"github.com/nathanpucheril/GoCollect/containers/lists"
+	"github.com/nathanpucheril/GoCollect/iterators"
 )
 
 type DoublyLinkedList struct {
@@ -52,12 +52,12 @@ func (self *DoublyLinkedList) Clear() {
 	self.sentinelBack = sentinelBack
 }
 
-func (self *DoublyLinkedList) Iterator() containers.Iterator {
+func (self *DoublyLinkedList) Iterator() iterators.Iterator {
 	dllIt := NewDLLIterator(self)
 	return &dllIt
 }
 
-func (self *DoublyLinkedList) ReverseIterator() containers.Iterator {
+func (self *DoublyLinkedList) ReverseIterator() iterators.Iterator {
 	dllIt := NewDLLReverseIterator(self)
 	return &dllIt
 }

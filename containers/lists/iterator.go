@@ -1,14 +1,14 @@
 package lists
 
 import (
-	"github.com/nathanpucheril/GoCollect/containers"
+	"github.com/nathanpucheril/GoCollect/iterators"
 	"github.com/pkg/errors"
 )
 
 type ListIterator struct {
 	index int
 	list  *List
-	containers.Iterator
+	iterators.Iterator
 }
 
 func NewListIterator(list *List) ListIterator {

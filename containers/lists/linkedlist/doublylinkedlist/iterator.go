@@ -1,14 +1,14 @@
 package doublylinkedlist
 
 import (
-	"github.com/nathanpucheril/GoCollect/containers"
+	"github.com/nathanpucheril/GoCollect/iterators"
 	"github.com/pkg/errors"
 )
 
 type DLLIterator struct {
 	node *dlnode
 	list *DoublyLinkedList
-	containers.Iterator
+	iterators.Iterator
 }
 
 func NewDLLIterator(list *DoublyLinkedList) DLLIterator {
@@ -31,7 +31,7 @@ func (self *DLLIterator) Next() (interface{}, error) {
 type DLLReverseIterator struct {
 	node *dlnode
 	list *DoublyLinkedList
-	containers.Iterator
+	iterators.Iterator
 }
 
 func NewDLLReverseIterator(list *DoublyLinkedList) DLLIterator {

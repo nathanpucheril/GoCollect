@@ -1,8 +1,8 @@
 package singlylinkedlist
 
 import (
-	"github.com/nathanpucheril/GoCollect/containers"
 	"github.com/nathanpucheril/GoCollect/containers/lists"
+	"github.com/nathanpucheril/GoCollect/iterators"
 )
 
 var _ lists.List = (*SinglyLinkedList)(nil)
@@ -117,7 +117,7 @@ func (self *SinglyLinkedList) ToSlice() []interface{} {
 //
 //}
 
-func (self *SinglyLinkedList) Iterator() containers.Iterator {
+func (self *SinglyLinkedList) Iterator() iterators.Iterator {
 	sllIt := NewSLLIterator(self)
 	return &sllIt
 }

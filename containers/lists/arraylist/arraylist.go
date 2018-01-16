@@ -1,8 +1,8 @@
 package arraylist
 
 import (
-	"github.com/nathanpucheril/GoCollect/containers"
 	"github.com/nathanpucheril/GoCollect/containers/lists"
+	"github.com/nathanpucheril/GoCollect/iterators"
 )
 
 type ArrayList struct{}
@@ -59,12 +59,12 @@ func (*ArrayList) Clear() {
 	panic("implement me")
 }
 
-func (self *ArrayList) Iterator() containers.Iterator {
+func (self *ArrayList) Iterator() iterators.Iterator {
 	var list lists.List = self
 	return lists.NewListIterator(&list)
 }
 
-func (self *ArrayList) ReverseIterator() containers.Iterator {
+func (self *ArrayList) ReverseIterator() iterators.Iterator {
 	panic("implement")
 	//var list lists.List = *self
 	//return lists.NewIndexIterator(&list)
