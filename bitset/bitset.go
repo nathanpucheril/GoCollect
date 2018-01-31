@@ -14,6 +14,11 @@ func New(numBits uint32) Bitset {
 	return Bitset{make([]uint32, wordIndex+1, wordIndex+1), numBits}
 }
 
+func NewFromByteSlice(bytes []byte) Bitset {
+	l := len(bytes) * 4
+	return Bitset{make([]uint32, wordIndex+1, wordIndex+1),l.(uint32) }
+}
+
 func (self *Bitset) Set(i uint32) {
 	self.validateIndex(i)
 	wordIndex, bitOffset := getOffsets(i)
@@ -86,7 +91,7 @@ func getOffsets(i uint32) (uint32, uint32) {
 	return i >> 5, i % 32 // divide by 32
 }
 
-func (self *Bitset) toByteArray() {
+func (self *Bitset) ToByteArray() {
 	byteArray := make([]byte, 0, self.size>>3)
 	for _, word := range self.words {
 		byteArrPtr := (*[4]byte)(unsafe.Pointer(&word))[:]

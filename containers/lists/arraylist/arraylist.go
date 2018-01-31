@@ -5,7 +5,9 @@ import (
 	"github.com/nathanpucheril/GoCollect/iterators"
 )
 
-type ArrayList struct{}
+type ArrayList struct{
+	list []interface{}
+}
 
 func (*ArrayList) Prepend(value interface{}) {
 	panic("implement me")
@@ -47,8 +49,8 @@ func (*ArrayList) IsEmpty() bool {
 	panic("implement me")
 }
 
-func (*ArrayList) Size() int {
-	panic("implement me")
+func (self *ArrayList) Size() int {
+	return len(self.list)
 }
 
 func (*ArrayList) ToSlice() []interface{} {

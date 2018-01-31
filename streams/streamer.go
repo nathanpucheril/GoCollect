@@ -1,89 +1,123 @@
 package streams
 
 import (
+	"fmt"
 	"github.com/nathanpucheril/GoCollect/comparators"
 	"github.com/nathanpucheril/GoCollect/iterators"
-	"math"
+	"golang.org/x/tools/container/intsets"
 )
 
 type Stream interface {
-	Limit() Stream
-	Map() Stream
-	Filter() Stream
-	Sorted() Stream
+	Limit(int) Stream
+	Map(func (interface{}) interface{}) Stream
+	Filter(func (interface{}) bool) Stream
+	Sorted(c comparators.Comparator) Stream
 	Distinct() Stream
 
 	Count() int
 
-	Max() interface{}
-	Min() interface{}
+	Max(c comparators.Comparator) interface{}
+	Min(c comparators.Comparator) interface{}
 
 	ToSlice() []interface{}
 
 	ForEach(func(interface{}))
 
-	streamsource
+	source
 }
 
 type Streamable interface {
 	Stream() Stream
 }
 
-type streamsource interface {
+type source interface {
 	next() (interface{}, bool)
 }
 
+
+
 type simplestream struct {
-	src streamsource
+	out source
 }
 
-func (self *simplestream) Limit() Stream {
-	panic("implement me")
+func (self *simplestream) Limit(lim int) Stream {
+	var s Stream = &simplestream{ &limitfunnel{src:self.out,lim: lim}}
+	return s
 }
 
-func (self *simplestream) Map() Stream {
-	panic("implement me")
+func (self *simplestream) Map(fn func (interface{}) interface{}) Stream {
+	var s Stream = &simplestream{ &mapfunnel{self.out, fn}}
+	return s
 }
 
-func (self *simplestream) Filter() Stream {
-	panic("implement me")
+func (self *simplestream) Filter(fn func(interface{})bool) Stream {
+	var s Stream = &simplestream{ &filterfunnel{self.out, fn}}
+	return s
 }
 
-func (self *simplestream) Sorted() Stream {
+func (self *simplestream) Sorted(c comparators.Comparator) Stream {
 	panic("implement me")
 }
 
 func (self *simplestream) Distinct() Stream {
-	panic("implement me")
+	var s Stream = &simplestream{ &distinctfunnel{self.out, make(map[interface{}]struct{})}}
+	return s
 }
 
-func (self *simplestream) Max() interface{} {
-	mmst := minmaxstreamterminal{self, comparators.IntComparator, 0, math.MinInt32}
-	return mmst.terminate()
+func (self *simplestream) Max(c comparators.Comparator) interface{} {
+	maxer:= minmaxterminal{self.out, c, true}
+	return maxer.terminate()
 }
 
-func (self *simplestream) Min() interface{} {
-	mmst := minmaxstreamterminal{self, comparators.IntComparator, 1, math.MaxInt32}
-	return mmst.terminate()
+func (self *simplestream) Min(c comparators.Comparator) interface{} {
+	minner := minmaxterminal{self.out, c, false}
+	return minner.terminate()
 }
 
 func (self *simplestream) ToSlice() []interface{} {
-	panic("implement me")
+	slice := make([]interface{}, 0, 10)
+	for true {
+		item, ok := self.out.next()
+		if ok {
+			slice = append(slice, item)
+		} else {
+			break
+		}
+	}
+	return slice
 }
 
 func (self *simplestream) ForEach(fn func(interface{})) {
-	fet := foreachstreamterminal{self.src, fn}
-	fet.terminate()
+	for true {
+		item, ok := self.out.next()
+		if ok {
+			fn(item)
+		} else {
+			break
+		}
+	}
 }
 
 func (self *simplestream) next() (interface{}, bool) {
-	return self.src.next()
+	return self.out.next()
 }
 
 func (self *simplestream) Count() int {
-	cst := countstreamterminal{src: self.src}
-	return cst.terminate()
+	i := 0
+	for true {
+		_, ok := self.out.next()
+		if ok {
+			i++
+		} else {
+			break
+		}
+	}
+	return i
 }
+
+
+// Sourcers
+
 
 type iteratorsourcer struct {
 	it iterators.Iterator
@@ -100,58 +134,129 @@ func (self *iteratorsourcer) next() (interface{}, bool) {
 	return nil, false
 }
 
-// Terminals
 
-type foreachstreamterminal struct {
-	src streamsource
-	fn  func(interface{})
+
+// Funnels
+
+type funneler interface {
+	source
 }
 
-func (self *foreachstreamterminal) terminate() {
+
+type allpassfunnel struct {
+	src source
+}
+
+func (self *allpassfunnel) next() (interface{}, bool) {
+	fmt.Println("allpassfunnel next")
+	return self.src.next()
+}
+
+
+type filterfunnel struct {
+	src source
+	fn func(interface{}) bool
+}
+
+func (self *filterfunnel) next() (interface{}, bool) {
 	for true {
 		item, ok := self.src.next()
-		if ok {
-			self.fn(item)
-		} else {
+		fmt.Println("filter allpassfunnel next")
+		if !ok {
 			break
 		}
+		if self.fn(item) {
+			return item, true
+		}
 	}
+	return nil, false
 }
 
-type countstreamterminal struct {
-	src streamsource
+
+type mapfunnel struct {
+	src source
+	fn func(interface{}) interface{}
+}
+
+func (self *mapfunnel) next() (interface{}, bool) {
+	for true {
+		item, ok := self.src.next()
+		fmt.Println("filter allpassfunnel next")
+		if !ok {
+			break
+		}
+		return self.fn(item), true
+	}
+	return nil, false
+}
+
+
+type limitfunnel struct {
+	src source
+	lim int
 	cnt int
 }
 
-func (self *countstreamterminal) terminate() int {
-	for true {
-		if _, ok := self.src.next(); ok {
-			self.cnt++
-		} else {
+func (self *limitfunnel) next() (interface{}, bool) {
+	for self.cnt < self.lim {
+		item, ok := self.src.next()
+		fmt.Println("limit allpassfunnel next")
+		if !ok {
 			break
 		}
+		self.cnt++
+		return item, true
 	}
-	return self.cnt
+	return nil, false
 }
 
-type minmaxstreamterminal struct {
-	src  streamsource
-	cmp  comparators.Comparator
-	mode int // max : 1; min : 0
-	val  interface{}
+
+type distinctfunnel struct {
+	src source
+	set map[interface{}]struct{}
 }
 
-func (self *minmaxstreamterminal) terminate() interface{} {
+func (self *distinctfunnel) next() (interface{}, bool) {
 	for true {
-		if item, ok := self.src.next(); ok {
-			if self.cmp(self.val, item) > 0 && self.mode == 1 {
-				self.val = item
-			} else if self.cmp(self.val, item) < 0 && self.mode == 0 {
-				self.val = item
-			}
-		} else {
+		item, ok := self.src.next()
+		fmt.Println("funnel distinct next")
+		if !ok {
 			break
 		}
+		if _, inSet := self.set[item]; inSet {
+			return item, true
+		}
 	}
-	return self.val
+	return nil, false
+}
+
+
+// Terminals
+
+type minmaxterminal struct {
+	src source
+	c comparators.Comparator
+	isMax bool
+}
+
+func (self *minmaxterminal) terminate() interface{} {
+	var currMinMax interface{}
+	if self.isMax {
+		currMinMax = intsets.MinInt
+	} else {
+		currMinMax = intsets.MaxInt
+	}
+	for true {
+		item, ok := self.src.next()
+		if !ok {
+			break
+		}
+		comparison := self.c(item, currMinMax)
+		if  self.isMax && comparison > 0 {
+			currMinMax = item
+		} else if !self.isMax && comparison < 0{
+			currMinMax = item
+		}
+	}
+	return currMinMax
 }

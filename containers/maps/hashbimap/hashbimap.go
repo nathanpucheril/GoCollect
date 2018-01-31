@@ -3,6 +3,7 @@ package hashbimap
 import (
 	"github.com/nathanpucheril/GoCollect/containers"
 	"github.com/nathanpucheril/GoCollect/containers/maps"
+	"github.com/nathanpucheril/GoCollect/iterators"
 )
 
 // NOTE: HashBidiMaps are by nature 1-to-1
@@ -90,6 +91,6 @@ func (self *HashBidiMap) ToSlice() []interface{} {
 	panic("implement me")
 }
 
-func (self *HashBidiMap) Iterator() containers.Iterator {
+func (self *HashBidiMap) Iterator() iterators.Iterator {
 	panic("implement me")
 }

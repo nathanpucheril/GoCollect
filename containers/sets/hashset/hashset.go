@@ -1,6 +1,8 @@
 package hashset
 
-import "github.com/nathanpucheril/GoCollect/containers"
+import (
+	"github.com/nathanpucheril/GoCollect/iterators"
+)
 
 type HashSet struct {
 	set map[interface{}]struct{}
@@ -66,6 +68,6 @@ func (self *HashSet) ToSlice() []interface{} {
 	return keys
 }
 
-func (self *HashSet) Iterator() containers.Iterator {
-
+func (self *HashSet) Iterator() iterators.Iterator {
+ return nil
 }
