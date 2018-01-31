@@ -12,7 +12,7 @@ type HashSetIterator struct {
 }
 
 func NewHashSetIterator(set *HashSet) iterators.Iterator {
-	var it iterators.Iterator =  &HashSetIterator{set: set, hasNext: !set.IsEmpty(), nextGetter: newNextGetter(set)}
+	var it iterators.Iterator = &HashSetIterator{set: set, hasNext: !set.IsEmpty(), nextGetter: newNextGetter(set)}
 	return it
 }
 
@@ -32,7 +32,7 @@ func (self *HashSetIterator) Next() (interface{}, error) {
 }
 
 func (self *HashSetIterator) HasNext() bool {
- return true // TODO
+	return true // TODO
 }
 
 func newNextGetter(set *HashSet) <-chan interface{} {

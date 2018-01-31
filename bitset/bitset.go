@@ -16,7 +16,7 @@ func New(numBits uint32) Bitset {
 
 func NewFromByteSlice(bytes []byte) Bitset {
 	l := len(bytes) * 4
-	return Bitset{make([]uint32, wordIndex+1, wordIndex+1),l.(uint32) }
+	return Bitset{make([]uint32, wordIndex+1, wordIndex+1), l.(uint32)}
 }
 
 func (self *Bitset) Set(i uint32) {

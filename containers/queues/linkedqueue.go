@@ -14,7 +14,7 @@ func (self *LinkedQueue) Add(value interface{}) {
 	self.SinglyLinkedList.Append(value)
 }
 
-func (self *LinkedQueue) Get() (interface{}, bool) {
+func (self *LinkedQueue) Poll() (interface{}, bool) {
 	return self.SinglyLinkedList.RemoveFront()
 }
 

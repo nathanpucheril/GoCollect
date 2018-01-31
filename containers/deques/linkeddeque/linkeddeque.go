@@ -24,7 +24,7 @@ func (self *LinkedDeque) Push(value interface{}) {
 	panic("implement me")
 }
 
-func (self *LinkedDeque) Pop() (interface{}, error) {
+func (self *LinkedDeque) Pop() (interface{}, bool) {
 	panic("implement me")
 }
 
@@ -44,14 +44,14 @@ func (self *LinkedDeque) AddLast(value interface{}) {
 	self.DoublyLinkedList.Append(value)
 }
 
-func (self *LinkedDeque) Remove() (interface{}, bool) {
+func (self *LinkedDeque) Poll() (interface{}, bool) {
 	return self.DoublyLinkedList.RemoveFront()
 }
 
-func (self *LinkedDeque) RemoveFirst() (interface{}, bool) {
+func (self *LinkedDeque) PollFirst() (interface{}, bool) {
 	return self.DoublyLinkedList.RemoveFront()
 }
 
-func (self *LinkedDeque) RemoveLast() (interface{}, bool) {
+func (self *LinkedDeque) PollLast() (interface{}, bool) {
 	return self.DoublyLinkedList.RemoveBack()
 }

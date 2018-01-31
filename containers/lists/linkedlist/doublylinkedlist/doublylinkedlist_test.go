@@ -27,14 +27,13 @@ func TestDoublyLinkedList_Clear(t *testing.T) {
 		t.Fail()
 	}
 
-
 	// Check that it is actually cleared in the forward direction
-	for i, ptr:=0, dll.sentinelFront.next; ptr != dll.sentinelBack ;i++ {
+	for i, ptr := 0, dll.sentinelFront.next; ptr != dll.sentinelBack; i++ {
 		t.Fail()
 		ptr = ptr.next
 	}
 	// Check that it is actually cleared in the backward direction
-	for i, ptr:=0, dll.sentinelBack.prev; ptr != dll.sentinelFront ;i++ {
+	for i, ptr := 0, dll.sentinelBack.prev; ptr != dll.sentinelFront; i++ {
 		t.Fail()
 		ptr = ptr.prev
 	}
@@ -53,17 +52,15 @@ func TestDoublyLinkedList_Clear(t *testing.T) {
 
 	// Check we successfully added items back in
 	i := 0
-	for ptr := dll.sentinelFront.next; ptr != dll.sentinelBack ;i++ {
+	for ptr := dll.sentinelFront.next; ptr != dll.sentinelBack; i++ {
 		ptr = ptr.next
 	}
 
 	// Check that items were added back in
-	if dll.Size() != i  {
+	if dll.Size() != i {
 		t.Fail()
 	}
 }
-
-
 
 func TestDoublyLinkedList_Insert(t *testing.T) {
 	dll := NewDLL()

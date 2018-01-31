@@ -19,29 +19,28 @@ func TestTrie_Put(t *testing.T) {
 	arr2 = append(arr2, 4)
 	arr2 = append(arr2, 3)
 
-
 	arr3 := make([]interface{}, 0, 10)
 	arr3 = append(arr3, 1)
 	arr3 = append(arr3, 2)
-	if !trie.Contains(arr)  {
+	if !trie.Contains(arr) {
 		t.Fail()
 	}
 
-	if trie.Contains(arr2)  {
+	if trie.Contains(arr2) {
 		t.Fail()
 	}
 
-	if trie.Contains(arr3)  {
+	if trie.Contains(arr3) {
 		t.Fail()
 	}
 
 	trie.Put(arr3)
-	if !trie.Contains(arr3)  {
+	if !trie.Contains(arr3) {
 		t.Fail()
 	}
 
 	trie.Put(arr2)
-	if !trie.Contains(arr2)  {
+	if !trie.Contains(arr2) {
 		t.Fail()
 	}
 

@@ -5,7 +5,7 @@ import (
 	"github.com/nathanpucheril/GoCollect/iterators"
 )
 
-type ArrayList struct{
+type ArrayList struct {
 	list []interface{}
 }
 

@@ -10,23 +10,22 @@ func TestNewStringTrie(t *testing.T) {
 
 	trie.Put("hello")
 
-	if !trie.Contains("hello")  {
+	if !trie.Contains("hello") {
 		t.Fail()
 	}
 
-	if trie.Contains("olleh")  {
+	if trie.Contains("olleh") {
 		t.Fail()
 	}
 
-	if trie.Contains("hel")  {
+	if trie.Contains("hel") {
 		t.Fail()
 	}
 
 	trie.Put("hel")
-	if !trie.Contains("hel")  {
+	if !trie.Contains("hel") {
 		t.Fail()
 	}
-
 
 	trie.Put("hel")
 	trie.Put("h23el")

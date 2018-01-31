@@ -4,13 +4,12 @@ import (
 	"fmt"
 	"github.com/nathanpucheril/GoCollect/comparators"
 	"github.com/nathanpucheril/GoCollect/iterators"
-	"golang.org/x/tools/container/intsets"
 )
 
 type Stream interface {
 	Limit(int) Stream
-	Map(func (interface{}) interface{}) Stream
-	Filter(func (interface{}) bool) Stream
+	Map(func(interface{}) interface{}) Stream
+	Filter(func(interface{}) bool) Stream
 	Sorted(c comparators.Comparator) Stream
 	Distinct() Stream
 
@@ -34,24 +33,22 @@ type source interface {
 	next() (interface{}, bool)
 }
 
-
-
 type simplestream struct {
 	out source
 }
 
 func (self *simplestream) Limit(lim int) Stream {
-	var s Stream = &simplestream{ &limitfunnel{src:self.out,lim: lim}}
+	var s Stream = &simplestream{&limitfunnel{src: self.out, lim: lim}}
 	return s
 }
 
-func (self *simplestream) Map(fn func (interface{}) interface{}) Stream {
-	var s Stream = &simplestream{ &mapfunnel{self.out, fn}}
+func (self *simplestream) Map(fn func(interface{}) interface{}) Stream {
+	var s Stream = &simplestream{&mapfunnel{self.out, fn}}
 	return s
 }
 
-func (self *simplestream) Filter(fn func(interface{})bool) Stream {
-	var s Stream = &simplestream{ &filterfunnel{self.out, fn}}
+func (self *simplestream) Filter(fn func(interface{}) bool) Stream {
+	var s Stream = &simplestream{&filterfunnel{self.out, fn}}
 	return s
 }
 
@@ -60,12 +57,12 @@ func (self *simplestream) Sorted(c comparators.Comparator) Stream {
 }
 
 func (self *simplestream) Distinct() Stream {
-	var s Stream = &simplestream{ &distinctfunnel{self.out, make(map[interface{}]struct{})}}
+	var s Stream = &simplestream{&distinctfunnel{self.out, make(map[interface{}]struct{})}}
 	return s
 }
 
 func (self *simplestream) Max(c comparators.Comparator) interface{} {
-	maxer:= minmaxterminal{self.out, c, true}
+	maxer := minmaxterminal{self.out, c, true}
 	return maxer.terminate()
 }
 
@@ -115,9 +112,7 @@ func (self *simplestream) Count() int {
 	return i
 }
 
-
 // Sourcers
-
 
 type iteratorsourcer struct {
 	it iterators.Iterator
@@ -134,14 +129,21 @@ func (self *iteratorsourcer) next() (interface{}, bool) {
 	return nil, false
 }
 
-
-
-// Funnels
-
-type funneler interface {
-	source
+type splicesourcer struct {
+	splice []interface{}
+	idx    int
 }
 
+func (self *splicesourcer) next() (interface{}, bool) {
+	if self.idx < len(self.splice) {
+		ret := self.splice[self.idx]
+		self.idx++
+		return ret, true
+	}
+	return nil, false
+}
+
+// Funnels
 
 type allpassfunnel struct {
 	src source
@@ -152,10 +154,9 @@ func (self *allpassfunnel) next() (interface{}, bool) {
 	return self.src.next()
 }
 
-
 type filterfunnel struct {
 	src source
-	fn func(interface{}) bool
+	fn  func(interface{}) bool
 }
 
 func (self *filterfunnel) next() (interface{}, bool) {
@@ -172,10 +173,9 @@ func (self *filterfunnel) next() (interface{}, bool) {
 	return nil, false
 }
 
-
 type mapfunnel struct {
 	src source
-	fn func(interface{}) interface{}
+	fn  func(interface{}) interface{}
 }
 
 func (self *mapfunnel) next() (interface{}, bool) {
@@ -189,7 +189,6 @@ func (self *mapfunnel) next() (interface{}, bool) {
 	}
 	return nil, false
 }
-
 
 type limitfunnel struct {
 	src source
@@ -210,7 +209,6 @@ func (self *limitfunnel) next() (interface{}, bool) {
 	return nil, false
 }
 
-
 type distinctfunnel struct {
 	src source
 	set map[interface{}]struct{}
@@ -230,31 +228,30 @@ func (self *distinctfunnel) next() (interface{}, bool) {
 	return nil, false
 }
 
-
 // Terminals
 
 type minmaxterminal struct {
-	src source
-	c comparators.Comparator
+	src   source
+	c     comparators.Comparator
 	isMax bool
 }
 
 func (self *minmaxterminal) terminate() interface{} {
 	var currMinMax interface{}
-	if self.isMax {
-		currMinMax = intsets.MinInt
+
+	if item, ok := self.src.next(); ok {
+		currMinMax = item
 	} else {
-		currMinMax = intsets.MaxInt
+		return nil
 	}
+
 	for true {
 		item, ok := self.src.next()
 		if !ok {
 			break
 		}
 		comparison := self.c(item, currMinMax)
-		if  self.isMax && comparison > 0 {
-			currMinMax = item
-		} else if !self.isMax && comparison < 0{
+		if (self.isMax && comparison > 0) || (!self.isMax && comparison < 0) {
 			currMinMax = item
 		}
 	}

@@ -45,14 +45,14 @@ func (self *ArrayDeque) AddLast(value interface{}) {
 	self.ArrayList.Append(value)
 }
 
-func (self *ArrayDeque) Remove() (interface{}, bool) {
+func (self *ArrayDeque) Poll() (interface{}, bool) {
 	return self.ArrayList.Remove(0)
 }
 
-func (self *ArrayDeque) RemoveFirst() (interface{}, bool) {
+func (self *ArrayDeque) PollFirst() (interface{}, bool) {
 	return self.ArrayList.Remove(0)
 }
 
-func (self *ArrayDeque) RemoveLast() (interface{}, bool) {
+func (self *ArrayDeque) PollLast() (interface{}, bool) {
 	return self.ArrayList.Remove(self.Size() - 1)
 }

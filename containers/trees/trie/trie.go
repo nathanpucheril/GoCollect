@@ -1,21 +1,19 @@
 package trie
 
-import
-	"github.com/nathanpucheril/GoCollect/containers/sets/hashset"
-
+import "github.com/nathanpucheril/GoCollect/containers/sets/hashset"
 
 type Trie struct {
 	root node
 }
 
 type node struct {
-	value interface{}
+	value    interface{}
 	children map[interface{}]*node
-	isEnd bool
+	isEnd    bool
 }
 
 func NewTrie() Trie {
-	return Trie{node{value: nil, children:make(map[interface{}]*node)}}
+	return Trie{node{value: nil, children: make(map[interface{}]*node)}}
 }
 
 func (self *Trie) Put(item []interface{}) {
@@ -35,10 +33,10 @@ func (self *Trie) Values() [][]interface{} {
 	}
 
 	visited := hashset.New()
-	 for len(stack) > 0  {
-		if peek := stack[len(stack) - 1]; visited.Contains(peek) {
-			prefix = prefix[:len(prefix) - 1]
-			stack = stack[:len(stack) - 1]
+	for len(stack) > 0 {
+		if peek := stack[len(stack)-1]; visited.Contains(peek) {
+			prefix = prefix[:len(prefix)-1]
+			stack = stack[:len(stack)-1]
 		} else {
 			// visit
 			visited.Add(peek)
@@ -56,7 +54,7 @@ func (self *Trie) Values() [][]interface{} {
 			}
 
 		}
-	 }
+	}
 	return values
 }
 

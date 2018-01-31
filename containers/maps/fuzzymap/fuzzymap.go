@@ -16,6 +16,10 @@ func NewFuzzyHashMap(writeFn, readFn func(interface{}) interface{}) FuzzyMap {
 	return FuzzyMap{writeFn, readFn, baseMap}
 }
 
+func FuzzifyMap(baseMap maps.Map, writeFn, readFn func(interface{}) interface{}) FuzzyMap {
+	return FuzzyMap{writeFn, readFn, baseMap}
+}
+
 func (self *FuzzyMap) Put(key, value interface{}) bool {
 	return self.baseMap.Put(self.writeFn(key), value)
 }

@@ -69,5 +69,5 @@ func (self *HashSet) ToSlice() []interface{} {
 }
 
 func (self *HashSet) Iterator() iterators.Iterator {
- return nil
+	panic("implement me")
 }
