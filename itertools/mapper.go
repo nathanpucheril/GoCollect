@@ -5,12 +5,12 @@ import (
 	"github.com/pkg/errors"
 )
 
-type Mapped struct {
+type mapped struct {
 	it    iterators.Iterator
 	mapfn func(item interface{}) interface{}
 }
 
-func (self *Mapped) Next() (interface{}, error) {
+func (self *mapped) Next() (interface{}, error) {
 	item, err := self.it.Next()
 	if err != nil {
 		return nil, err
@@ -18,22 +18,22 @@ func (self *Mapped) Next() (interface{}, error) {
 	return self.mapfn(item), nil
 }
 
-func (self *Mapped) HasNext() bool {
+func (self *mapped) HasNext() bool {
 	return self.it.HasNext()
 }
 
-func (self *Mapped) Iterator() iterators.Iterator {
+func (self *mapped) Iterator() iterators.Iterator {
 	return self
 }
 
-type Filtered struct {
+type filtered struct {
 	it         iterators.Iterator
 	curr       *interface{}
 	valueReady bool
 	filterfn   func(item interface{}) bool
 }
 
-func (self *Filtered) HasNext() bool {
+func (self *filtered) HasNext() bool {
 	if self.valueReady {
 		return true
 	}
@@ -50,7 +50,7 @@ func (self *Filtered) HasNext() bool {
 	return false
 }
 
-func (self *Filtered) Next() (interface{}, error) {
+func (self *filtered) Next() (interface{}, error) {
 	if self.valueReady {
 		self.valueReady = false
 		return *self.curr, nil
@@ -61,16 +61,16 @@ func (self *Filtered) Next() (interface{}, error) {
 	return nil, errors.New("StopIteration")
 }
 
-func (self *Filtered) Iterator() iterators.Iterator {
+func (self *filtered) Iterator() iterators.Iterator {
 	return self
 }
 
-func mapped(it iterators.Iterable, mapfn func(item interface{}) interface{}) *Mapped {
-	return &Mapped{it.Iterator(), mapfn}
+func Mapped(it iterators.Iterable, mapfn func(item interface{}) interface{}) *mapped {
+	return &mapped{it.Iterator(), mapfn}
 }
 
-func filtered(it iterators.Iterable, filterfn func(item interface{}) bool) *Filtered {
-	f := &Filtered{it: it.Iterator(), filterfn: filterfn}
+func Filtered(it iterators.Iterable, filterfn func(item interface{}) bool) *filtered {
+	f := &filtered{it: it.Iterator(), filterfn: filterfn}
 	f.HasNext()
 	return f
 }

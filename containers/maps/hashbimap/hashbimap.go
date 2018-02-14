@@ -49,7 +49,7 @@ func (self *HashBiMap) GetKey(value interface{}) (interface{}, bool) {
 }
 
 func (self *HashBiMap) KeySet() sets.Set {
- panic("implement me")
+	panic("implement me")
 }
 
 func (self *HashBiMap) IsEmpty() bool {

@@ -1,9 +1,33 @@
 package trie
 
-import "github.com/nathanpucheril/GoCollect/containers/sets/hashset"
+import (
+	"github.com/nathanpucheril/GoCollect/containers/sets/hashset"
+	"github.com/nathanpucheril/GoCollect/iterators"
+)
 
 type Trie struct {
 	root node
+	size int
+}
+
+func (self *Trie) IsEmpty() bool {
+	return self.size == 0
+}
+
+func (self *Trie) Size() int {
+	return self.size
+}
+
+func (self *Trie) ToSlice() []interface{} {
+	panic("implement me")
+}
+
+func (self *Trie) Clear() {
+	self.root = node{value: nil, children: make(map[interface{}]*node)}
+}
+
+func (self *Trie) Iterator() iterators.Iterator {
+	panic("implement me")
 }
 
 type node struct {
@@ -13,11 +37,13 @@ type node struct {
 }
 
 func NewTrie() Trie {
-	return Trie{node{value: nil, children: make(map[interface{}]*node)}}
+	return Trie{root: node{value: nil, children: make(map[interface{}]*node)}}
 }
 
 func (self *Trie) Put(item []interface{}) {
-	self.root.insert(item)
+	if self.root.insert(item) {
+		self.size++
+	}
 }
 
 func (self *Trie) Contains(item []interface{}) bool {
@@ -58,9 +84,11 @@ func (self *Trie) Values() [][]interface{} {
 	return values
 }
 
-func (self *node) insert(item []interface{}) {
+func (self *node) insert(item []interface{}) bool {
 	if len(item) == 0 {
+		wasEnd := self.isEnd
 		self.isEnd = true
+		return !wasEnd
 	} else {
 		toInsert := item[0]
 		childNode, ok := self.children[toInsert]
@@ -68,7 +96,7 @@ func (self *node) insert(item []interface{}) {
 			self.children[toInsert] = &node{value: toInsert, children: make(map[interface{}]*node)}
 			childNode = self.children[toInsert]
 		}
-		childNode.insert(item[1:])
+		return childNode.insert(item[1:])
 	}
 }
 

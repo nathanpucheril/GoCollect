@@ -28,7 +28,7 @@ func TestMapped(t *testing.T) {
 
 	its := iteratorsourcer{dll.Iterator()}
 	var ss source = &its
-	sstream := simplestream{&allpassfunnel{ss}}
+	sstream := simplestream{ss}
 	//pos := func (i interface{}) bool {
 	//	return i.(int) > 0
 	//}
@@ -49,11 +49,11 @@ func TestMapped_SpliceSourcer(t *testing.T) {
 	}
 	splicesource := splicesourcer{splice: interfaceArr}
 	var ss source = &splicesource
-	sstream := simplestream{&allpassfunnel{ss}}
+	sstream := simplestream{ss}
 	//pos := func (i interface{}) bool {
 	//	return i.(int) > 0
 	//}
-	fmt.Println(sstream.Max(comparators.IntComparator))
+	fmt.Println(sstream.Limit(4).ToSlice())
 	//if sstream.Max() != 100 {
 	//	t.Fail()
 	//}

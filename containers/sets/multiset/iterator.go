@@ -1,24 +1,24 @@
-package hashset
+package multiset
 
 import (
 	"errors"
 	"github.com/nathanpucheril/GoCollect/iterators"
 )
 
-type HashSetIterator struct {
-	set          *HashSet
+type MultiSetIterator struct {
+	set          *MultiSet
 	next         interface{}
 	nextPrepared bool
 	nextGetter   <-chan interface{}
 }
 
-func newHashSetIterator(set *HashSet) iterators.Iterator {
-	hashsetIterator := &HashSetIterator{set: set, nextGetter: newNextGetter(set)}
-	hashsetIterator.prepareNext()
-	return hashsetIterator
+func newMultiSetIterator(set *MultiSet) iterators.Iterator {
+	multisetIterator := &MultiSetIterator{set: set, nextGetter: newNextGetter(set)}
+	multisetIterator.prepareNext()
+	return multisetIterator
 }
 
-func (self *HashSetIterator) Next() (interface{}, error) {
+func (self *MultiSetIterator) Next() (interface{}, error) {
 	if self.nextPrepared {
 		ret := self.next
 		self.prepareNext()
@@ -30,11 +30,11 @@ func (self *HashSetIterator) Next() (interface{}, error) {
 	}
 }
 
-func (self *HashSetIterator) HasNext() bool {
+func (self *MultiSetIterator) HasNext() bool {
 	return self.prepareNext()
 }
 
-func (self *HashSetIterator) prepareNext() bool {
+func (self *MultiSetIterator) prepareNext() bool {
 	if self.nextPrepared {
 		return self.nextPrepared
 	}
@@ -51,11 +51,13 @@ func (self *HashSetIterator) prepareNext() bool {
 	return self.nextPrepared
 }
 
-func newNextGetter(set *HashSet) <-chan interface{} {
+func newNextGetter(set *MultiSet) <-chan interface{} {
 	chn := make(chan interface{})
 	go func() {
-		for item := range set.set {
-			chn <- item
+		for item, count := range set.set {
+			for i := 0; i < count; i++ {
+				chn <- item
+			}
 		}
 
 		// Ensure that at the end of the loop we close the channel!

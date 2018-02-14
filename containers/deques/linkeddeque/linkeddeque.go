@@ -9,15 +9,24 @@ type LinkedDeque struct {
 }
 
 func (self *LinkedDeque) Peek() (interface{}, bool) {
-	return self.DoublyLinkedList.GetFront()
+	if self.DoublyLinkedList.IsEmpty() {
+		return nil, false
+	}
+	return self.DoublyLinkedList.GetFront(), true
 }
 
 func (self *LinkedDeque) PeekFirst() (interface{}, bool) {
-	return self.DoublyLinkedList.GetFront()
+	if self.DoublyLinkedList.IsEmpty() {
+		return nil, false
+	}
+	return self.DoublyLinkedList.GetFront(), true
 }
 
 func (self *LinkedDeque) PeekLast() (interface{}, bool) {
-	return self.DoublyLinkedList.GetBack()
+	if self.DoublyLinkedList.IsEmpty() {
+		return nil, false
+	}
+	return self.DoublyLinkedList.GetBack(), true
 }
 
 func (self *LinkedDeque) Push(value interface{}) {

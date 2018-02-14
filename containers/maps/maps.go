@@ -12,7 +12,6 @@ type Map interface {
 
 	ContainsEntry(key, value interface{}) bool
 	ContainsKey(key interface{}) bool
-	ContainsValue(key interface{}) bool
 
 	//KeySet()
 	Values() []interface{}
@@ -22,18 +21,15 @@ type Map interface {
 
 // inspiration from Guava (Google's Standard Java library)
 type Multimap interface {
-	Put(key, value interface{}) bool
-	PutAll(key interface{}, value ...interface{})
+	Put(key interface{}, value ...interface{}) bool
 	PutAllMultiMap(m Multimap)
 
 	Get(key interface{}) (interface{}, bool)
 
-	Remove(key, value interface{}) bool
-	RemoveAll(key interface{}, value ...interface{}) bool
+	Remove(key interface{}, value ...interface{}) bool
 
 	ContainsEntry(key, value interface{}) bool
 	ContainsKey(key interface{}) bool
-	ContainsValue(key interface{}) bool
 
 	//KeySet()
 	Values() []interface{}

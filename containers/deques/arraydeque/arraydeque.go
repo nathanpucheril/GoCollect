@@ -8,51 +8,69 @@ type ArrayDeque struct {
 	*arraylist.ArrayList
 }
 
-func (self *ArrayDeque) Peek() (interface{}, bool) {
-	return self.ArrayList.Get(0)
+func (ad *ArrayDeque) Peek() (interface{}, bool) {
+	if ad.IsEmpty() {
+		return nil, false
+	}
+	return ad.ArrayList.Get(0), true
 }
 
-func (self *ArrayDeque) PeekFirst() (interface{}, bool) {
-	return self.ArrayList.Get(0)
+func (ad *ArrayDeque) PeekFirst() (interface{}, bool) {
+	if ad.IsEmpty() {
+		return nil, false
+	}
+	return ad.ArrayList.Get(0), true
 }
 
-func (self *ArrayDeque) PeekLast() (interface{}, bool) {
-	return self.ArrayList.Get(self.Size() - 1)
+func (ad *ArrayDeque) PeekLast() (interface{}, bool) {
+	if ad.IsEmpty() {
+		return nil, false
+	}
+	return ad.ArrayList.Get(ad.Size() - 1), true
 }
 
-func (self *ArrayDeque) Push(value interface{}) {
+func (ad *ArrayDeque) Push(value interface{}) {
 	panic("implement me")
 }
 
-func (self *ArrayDeque) Pop() (interface{}, bool) {
+func (ad *ArrayDeque) Pop() (interface{}, bool) {
 	panic("implement me")
 }
 
 func NewArrayDeque() ArrayDeque {
 	arr := arraylist.New()
-	return ArrayDeque{&arr}
+	return ArrayDeque{arr}
 }
 
-func (self *ArrayDeque) Add(value interface{}) {
-	self.ArrayList.Prepend(value)
+func (ad *ArrayDeque) Add(value interface{}) {
+	ad.ArrayList.Prepend(value)
 }
 
-func (self *ArrayDeque) AddFirst(value interface{}) {
-	self.ArrayList.Prepend(value)
+func (ad *ArrayDeque) AddFirst(value interface{}) {
+	ad.ArrayList.Prepend(value)
 }
 
-func (self *ArrayDeque) AddLast(value interface{}) {
-	self.ArrayList.Append(value)
+func (ad *ArrayDeque) AddLast(value interface{}) {
+	ad.ArrayList.Append(value)
 }
 
-func (self *ArrayDeque) Poll() (interface{}, bool) {
-	return self.ArrayList.Remove(0)
+func (ad *ArrayDeque) Poll() (interface{}, bool) {
+	if ad.IsEmpty() {
+		return nil, false
+	}
+	return ad.ArrayList.Remove(0), true
 }
 
-func (self *ArrayDeque) PollFirst() (interface{}, bool) {
-	return self.ArrayList.Remove(0)
+func (ad *ArrayDeque) PollFirst() (interface{}, bool) {
+	if ad.IsEmpty() {
+		return nil, false
+	}
+	return ad.ArrayList.Remove(0), true
 }
 
-func (self *ArrayDeque) PollLast() (interface{}, bool) {
-	return self.ArrayList.Remove(self.Size() - 1)
+func (ad *ArrayDeque) PollLast() (interface{}, bool) {
+	if ad.IsEmpty() {
+		return nil, false
+	}
+	return ad.ArrayList.Remove(ad.Size() - 1), true
 }

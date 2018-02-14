@@ -3,13 +3,12 @@ package multiset
 import "github.com/nathanpucheril/GoCollect/iterators"
 
 type MultiSet struct {
-	set map[interface{}]int
+	set  map[interface{}]int
 	size int
 }
 
-
 func New() MultiSet {
-	return MultiSet{set:make(map[interface{}]int)}
+	return MultiSet{set: make(map[interface{}]int)}
 }
 
 func (self *MultiSet) Clear() {
@@ -62,7 +61,7 @@ func (self *MultiSet) ToSlice() []interface{} {
 
 	i := 0
 	for key, count := range self.set {
-		for j := 0; j <  count; j ++ {
+		for j := 0; j < count; j++ {
 			keys[i] = key
 			i++
 		}
@@ -71,5 +70,5 @@ func (self *MultiSet) ToSlice() []interface{} {
 }
 
 func (self *MultiSet) Iterator() iterators.Iterator {
-	panic("implement me")
+	return newMultiSetIterator(self)
 }

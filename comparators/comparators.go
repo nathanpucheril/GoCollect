@@ -11,7 +11,7 @@ func IntComparator(a, b interface{}) int {
 }
 
 func Reverse(comparator Comparator) func(a, b interface{}) int {
-	return func (a, b interface{}) int {
+	return func(a, b interface{}) int {
 		return -comparator(a, b)
 	}
 }

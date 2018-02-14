@@ -37,44 +37,44 @@ type simplestream struct {
 	out source
 }
 
-func (self *simplestream) Limit(lim int) Stream {
-	var s Stream = &simplestream{&limitfunnel{src: self.out, lim: lim}}
+func (ss *simplestream) Limit(lim int) Stream {
+	var s Stream = &simplestream{&limitfunnel{src: ss.out, lim: lim}}
 	return s
 }
 
-func (self *simplestream) Map(fn func(interface{}) interface{}) Stream {
-	var s Stream = &simplestream{&mapfunnel{self.out, fn}}
+func (ss *simplestream) Map(fn func(interface{}) interface{}) Stream {
+	var s Stream = &simplestream{&mapfunnel{ss.out, fn}}
 	return s
 }
 
-func (self *simplestream) Filter(fn func(interface{}) bool) Stream {
-	var s Stream = &simplestream{&filterfunnel{self.out, fn}}
+func (ss *simplestream) Filter(fn func(interface{}) bool) Stream {
+	var s Stream = &simplestream{&filterfunnel{ss.out, fn}}
 	return s
 }
 
-func (self *simplestream) Sorted(c comparators.Comparator) Stream {
+func (ss *simplestream) Sorted(c comparators.Comparator) Stream {
 	panic("implement me")
 }
 
-func (self *simplestream) Distinct() Stream {
-	var s Stream = &simplestream{&distinctfunnel{self.out, make(map[interface{}]struct{})}}
+func (ss *simplestream) Distinct() Stream {
+	var s Stream = &simplestream{&distinctfunnel{ss.out, make(map[interface{}]struct{})}}
 	return s
 }
 
-func (self *simplestream) Max(c comparators.Comparator) interface{} {
-	maxer := minmaxterminal{self.out, c, true}
+func (ss *simplestream) Max(c comparators.Comparator) interface{} {
+	maxer := minmaxterminal{ss.out, c, true}
 	return maxer.terminate()
 }
 
-func (self *simplestream) Min(c comparators.Comparator) interface{} {
-	minner := minmaxterminal{self.out, c, false}
+func (ss *simplestream) Min(c comparators.Comparator) interface{} {
+	minner := minmaxterminal{ss.out, c, false}
 	return minner.terminate()
 }
 
-func (self *simplestream) ToSlice() []interface{} {
+func (ss *simplestream) ToSlice() []interface{} {
 	slice := make([]interface{}, 0, 10)
 	for true {
-		item, ok := self.out.next()
+		item, ok := ss.out.next()
 		if ok {
 			slice = append(slice, item)
 		} else {
@@ -84,9 +84,9 @@ func (self *simplestream) ToSlice() []interface{} {
 	return slice
 }
 
-func (self *simplestream) ForEach(fn func(interface{})) {
+func (ss *simplestream) ForEach(fn func(interface{})) {
 	for true {
-		item, ok := self.out.next()
+		item, ok := ss.out.next()
 		if ok {
 			fn(item)
 		} else {
@@ -95,14 +95,14 @@ func (self *simplestream) ForEach(fn func(interface{})) {
 	}
 }
 
-func (self *simplestream) next() (interface{}, bool) {
-	return self.out.next()
+func (ss *simplestream) next() (interface{}, bool) {
+	return ss.out.next()
 }
 
-func (self *simplestream) Count() int {
+func (ss *simplestream) Count() int {
 	i := 0
 	for true {
-		_, ok := self.out.next()
+		_, ok := ss.out.next()
 		if ok {
 			i++
 		} else {

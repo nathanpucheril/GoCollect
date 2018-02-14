@@ -1,8 +1,8 @@
 package linkedstack
 
 import (
-	"github.com/nathanpucheril/GoCollect/containers"
 	"github.com/nathanpucheril/GoCollect/containers/lists/linkedlist/doublylinkedlist"
+	"github.com/nathanpucheril/GoCollect/iterators"
 )
 
 type LinkedListStack struct {
@@ -30,6 +30,6 @@ func (self *LinkedListStack) Peek() (interface{}, bool) {
 	return nil, false
 }
 
-func (self *LinkedListStack) Iterator() containers.Iterator {
+func (self *LinkedListStack) Iterator() iterators.Iterator {
 	return self.DoublyLinkedList.Iterator() // TODO need to do in reverse
 }

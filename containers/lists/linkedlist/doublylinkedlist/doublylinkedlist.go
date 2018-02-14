@@ -11,6 +11,10 @@ type DoublyLinkedList struct {
 	size          int
 }
 
+func (self *DoublyLinkedList) Remove(index int) (interface{}, bool) {
+	panic("implement me")
+}
+
 func (self *DoublyLinkedList) Set(index int, value interface{}) {
 	var curr *dlnode
 	if index <= self.size/2 {
@@ -120,26 +124,50 @@ func (self *DoublyLinkedList) Contains(values ...interface{}) bool {
 	return true
 }
 
-func (self *DoublyLinkedList) Get(index int) (interface{}, bool) {
+func (self *DoublyLinkedList) Get(index int) interface{} {
 	if self.size == 0 {
-		return nil, false
+		return nil
 	}
-	return self.sentinelFront.next.value, true
+	return self.sentinelFront.next.value
 }
 
 func (self *DoublyLinkedList) GetFront() (interface{}, bool) {
-	return self.Get(0)
+	if self.IsEmpty() {
+		return nil, false
+	}
+	return self.Get(0), true
 }
 
 func (self *DoublyLinkedList) GetBack() (interface{}, bool) {
-	return self.Get(self.size - 1)
+	return self.Get(self.size - 1), true
 }
 
 func (self *DoublyLinkedList) RemoveAtIndex(index int) (interface{}, bool) {
-	return nil, false
+	// TODO YOU THIS IS DEFINTIELY WRONG
+	var prev, next *dlnode
+	if index <= self.size/2 {
+		prev, next = self.sentinelFront, self.sentinelFront.next
+		for i := 0; i < index; i++ {
+			prev, next = next, next.next
+		}
+	} else {
+		next, prev = self.sentinelBack, self.sentinelBack.prev
+		for i := 0; i < self.size-index; i++ {
+			prev, next = prev.prev, prev
+		}
+
+	}
+
+	nodeToRemove := prev.next
+	prev.next = next
+	next.prev = prev
+
+	self.size--
+	return nodeToRemove.value, true
 }
 
 func (self *DoublyLinkedList) RemoveValue(value interface{}) (interface{}, bool) {
+	panic("implement me")
 	return nil, false
 }
 

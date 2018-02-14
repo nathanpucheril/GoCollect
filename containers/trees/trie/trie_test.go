@@ -35,6 +35,9 @@ func TestTrie_Put(t *testing.T) {
 	}
 
 	trie.Put(arr3)
+	trie.Put(arr3)
+	trie.Put(arr3)
+	trie.Put(arr3)
 	if !trie.Contains(arr3) {
 		t.Fail()
 	}
@@ -47,4 +50,6 @@ func TestTrie_Put(t *testing.T) {
 	for _, item := range trie.Values() {
 		fmt.Println(item)
 	}
+
+	fmt.Println(trie.size)
 }

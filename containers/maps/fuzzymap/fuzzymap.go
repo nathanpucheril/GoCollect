@@ -20,26 +20,26 @@ func FuzzifyMap(baseMap maps.Map, writeFn, readFn func(interface{}) interface{})
 	return FuzzyMap{writeFn, readFn, baseMap}
 }
 
-func (self *FuzzyMap) Put(key, value interface{}) bool {
-	return self.baseMap.Put(self.writeFn(key), value)
+func (f *FuzzyMap) Put(key, value interface{}) bool {
+	return f.baseMap.Put(f.writeFn(key), value)
 }
 
-func (self *FuzzyMap) PutAll(m maps.Map) {
+func (f *FuzzyMap) PutAll(m maps.Map) {
 	panic("implement me")
 }
 
-func (self *FuzzyMap) Get(key interface{}) (interface{}, bool) {
-	return self.baseMap.Get(self.readFn(key))
+func (f *FuzzyMap) Get(key interface{}) (interface{}, bool) {
+	return f.baseMap.Get(f.readFn(key))
 }
 
-func (self *FuzzyMap) Remove(key interface{}) bool {
-	return self.baseMap.Remove(self.writeFn(key))
+func (f *FuzzyMap) Remove(key interface{}) bool {
+	return f.baseMap.Remove(f.writeFn(key))
 }
 
-func (self *FuzzyMap) ContainsEntry(key, value interface{}) bool {
-	return self.baseMap.ContainsEntry(self.readFn(key), value)
+func (f *FuzzyMap) ContainsEntry(key, value interface{}) bool {
+	return f.baseMap.ContainsEntry(f.readFn(key), value)
 }
 
-func (self *FuzzyMap) ContainsKey(key interface{}) bool {
-	return self.baseMap.ContainsKey(self.readFn(key))
+func (f *FuzzyMap) ContainsKey(key interface{}) bool {
+	return f.baseMap.ContainsKey(f.readFn(key))
 }

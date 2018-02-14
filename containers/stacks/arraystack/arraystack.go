@@ -14,11 +14,17 @@ func (self *ArrayStack) Push(value interface{}) {
 }
 
 func (self *ArrayStack) Pop() (interface{}, bool) {
-	return self.ArrayList.Remove(self.Size() - 1)
+	if self.ArrayList.IsEmpty() {
+		return nil, false
+	}
+	return self.ArrayList.Remove(self.Size() - 1), true
 }
 
 func (self *ArrayStack) Peek() (interface{}, bool) {
-	return self.ArrayList.Get(self.Size() - 1)
+	if self.ArrayList.IsEmpty() {
+		return nil, false
+	}
+	return self.ArrayList.Get(self.Size() - 1), true
 }
 
 func (self *ArrayStack) Iterator() iterators.Iterator {

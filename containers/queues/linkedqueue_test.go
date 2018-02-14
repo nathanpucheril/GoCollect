@@ -2,7 +2,7 @@ package queues
 
 import "testing"
 
-var testQueue LinkedQueue = NewLinkedQueue()
+var testQueue = NewLinkedQueue()
 
 func TestLinkedQueue_Add(t *testing.T) {
 	testQueue.Add("hi")

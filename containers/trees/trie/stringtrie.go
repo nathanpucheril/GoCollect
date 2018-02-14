@@ -1,7 +1,29 @@
 package trie
 
+import "github.com/nathanpucheril/GoCollect/iterators"
+
 type StringTrie struct {
 	internalTrie Trie
+}
+
+func (self *StringTrie) IsEmpty() bool {
+	return self.internalTrie.IsEmpty()
+}
+
+func (self *StringTrie) Size() int {
+	return self.internalTrie.Size()
+}
+
+func (self *StringTrie) ToSlice() []interface{} {
+	panic("implement me")
+}
+
+func (self *StringTrie) Clear() {
+	self.internalTrie.Clear()
+}
+
+func (self *StringTrie) Iterator() iterators.Iterator {
+	panic("implement me")
 }
 
 func NewStringTrie() StringTrie {

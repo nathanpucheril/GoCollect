@@ -9,4 +9,3 @@ type Queue interface {
 
 	containers.Container
 }
-

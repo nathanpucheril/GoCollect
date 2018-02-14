@@ -18,13 +18,13 @@ func (self *SinglyLinkedList) Set(index int, value interface{}) {
 	panic("implement me")
 }
 
-func (self *SinglyLinkedList) Get(index int) (interface{}, bool) {
+func (self *SinglyLinkedList) Get(index int) interface{} {
 	// TODO: check index validity
 	curr := self.sentinelFront.next
 	for i := 0; i < index; i++ {
 		curr = curr.next
 	}
-	return curr.value, true
+	return curr.value
 }
 
 func (self *SinglyLinkedList) IndexOf(value interface{}) int {
@@ -86,15 +86,15 @@ func (self *SinglyLinkedList) Contains(values ...interface{}) bool {
 	return false
 }
 
-func (self *SinglyLinkedList) Remove(index int) (interface{}, bool) {
+func (self *SinglyLinkedList) Remove(index int) interface{} {
 	panic("implement")
 }
 
-func (self *SinglyLinkedList) RemoveFront() (interface{}, bool) {
+func (self *SinglyLinkedList) RemoveFront() interface{} {
 	return self.Remove(0)
 }
 
-func (self *SinglyLinkedList) RemoveBack() (interface{}, bool) {
+func (self *SinglyLinkedList) RemoveBack() interface{} {
 	return self.Remove(self.Size() - 1)
 }
 
